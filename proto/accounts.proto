@@ -1,0 +1,61 @@
+// тут описан некий контракт того как должно выглядит наше gRPC приложение
+syntax = "proto3";
+
+package accounts;
+
+option  go_package = "auth.v1;accounts";
+
+service Accounts{
+  rpc EditProfile (EditRequest) returns (EditResponse);
+  rpc GetUserData (GetUserRequests) returns (GetDataResponse);
+  rpc GetUsers(GetUsersRequest) returns (GetUsersResponse);
+}
+
+message UserModel {
+  string uuid = 1;
+  string name = 3;
+  string surname = 4;
+  string patronymic = 5;
+  Gender gender = 6;
+  int32 age = 7;
+}
+
+enum Gender {
+  Men = 0;
+  Women = 1;
+}
+
+
+// =============================================================================
+message EditRequest{
+  string userUUID = 2;
+  string name = 3;
+  string surname = 4;
+  string patronymic = 5;
+}
+
+message EditResponse{
+  string message = 1;
+}
+
+
+// ============================================================================
+message GetUserRequests{
+  string userUUUID = 1;
+}
+message GetDataResponse{
+  UserModel user = 1;
+}
+
+
+// ============================================================================
+message GetUsersRequest{
+  int64 page = 1;
+  int64 limit = 2;
+}
+
+message GetUsersResponse{
+  repeated UserModel users = 1;
+}
+
+
